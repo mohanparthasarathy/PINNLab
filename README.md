@@ -1,5 +1,6 @@
 # PINNLab: Educational Dashboard for Data-Driven Modeling
 
+
 PINNLab is an open-source, interactive MATLAB dashboard designed to bridge the gap between classical differential equation pedagogy and modern computational data science. It provides a "glass-box" environment for undergraduate STEM students to learn data-driven parameter estimation and solve inverse problems utilizing **Physics-Informed Neural Networks (PINNs)**.
 
 This repository contains the full source code and datasets accompanying our manuscript, currently under review for the CODEE Journal.
@@ -39,6 +40,28 @@ This vertical escalation is strictly governed by the constructivist **5E Instruc
 
 ---
 
+## Getting Started
+
+### Prerequisites
+* **MATLAB** (R2022a or newer recommended)
+* **Deep Learning Toolbox**
+
+### Installation & Usage
+1. **Clone the Repository**: Clone this repository to your local machine using the command line or GitHub Desktop:
+   ```bash
+   git clone [https://github.com/mohanparthasarathy/PINNLab.git](https://github.com/mohanparthasarathy/PINNLab.git)
+2. **Open MATLAB**: Launch MATLAB and set the "Current Folder" to the cloned PINNLab directory.
+3. **Launch the Dashboard**: Type PINNLab_Dashboard in the Command Window or open the PINNLab_Dashboard.m file and click the Run button.
+4. **Run a Module**: Select a module from the Select Phase dropdown menu. Adjust the Data Noise, Max Epochs, and Warmup Epochs as desired. Set the True Parameters (for synthetic modules) or Initial Guesses (for evaluation). Click START TRAINING to begin the optimization process.
+5. **Evaluating Real-World Data (Module 4)**: Select Mod 4: Evaluate (Hare/Lynx Data). Upon clicking START TRAINING, a file explorer will open. Navigate to the /data folder and select hare_lynx_data.csv, or choose your own formatted CSV (Column 1: Time, Column 2: Prey, Column 3: Predator).
+
+## Citation
+If you use PINNLab in your teaching, coursework, or research, please consider citing our accompanying paper.
+
+## 👨‍💻 Authors
+* **Mohan Parthasarathy** - *Thomas Jefferson High School for Science and Technology*
+* **Dr. Padmanabhan Seshaiyer** - *Department of Mathematical Sciences, George Mason University*
+
 ## 🗂️ Repository Structure
 
 ```text
@@ -53,3 +76,4 @@ PINNLab/
 ├── run_PINN_LotkaVolterra.m        # Engine for Module 2
 ├── run_PINN_HollingsTypeII.m       # Engine for Modules 3 & 4 (Handles both Synthetic and Real data)
 └── README.md
+
