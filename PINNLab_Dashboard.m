@@ -107,7 +107,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 case 'Demo: Exponential Growth'
                     latexStr = '$$ \frac{dy}{dt} = ky $$';
                 case 'Mod 0: Engage (PhET Simulation)'
-                    latexStr = '$$ \text{Qualitative Ecological Sandbox} $$';
+                    latexStr = 'Qualitative Ecological Sandbox';
                     fSize = 14;
                 case 'Mod 1: Explore (Forced ODE)'
                     latexStr = '$$ \frac{dy}{dt} - ky = Q(t) $$';
@@ -145,8 +145,8 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             % UI Adaptations based on Module
             if strcmp(model, 'Mod 0: Engage (PhET Simulation)')
                 app.ParamHeaderLabel.Text = 'Simulation Settings:';
-                app.STARTButton.Text = 'OPEN PHET SIMULATION';
-                app.STARTButton.BackgroundColor = [0.8 0.4 0.1]; % Orange
+                app.STARTButton.Text = 'OPEN SIMULATION';
+                app.STARTButton.BackgroundColor = [0.3 0.4 0.8]; % Orange
                 app.NoiseEditField.Enable = 'off';
                 app.EpochsEditField.Enable = 'off';
                 app.WarmupEditField.Enable = 'off';
