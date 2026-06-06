@@ -76,6 +76,11 @@ data/
     hare_lynx_data.csv
 images/
     phet_natural_selection.png
+docs/
+    PINNLab_Teaching_Guide.md
+    PINNLab_Example_Student_Worksheet.md
+    example_runs/
+        README.md
 README.md
 ```
 
@@ -105,6 +110,21 @@ README.md
 - `images/phet_natural_selection.png`  
   Optional screenshot used for the Module 0 landing screen.
 
+### Documentation
+
+- `docs/PINNLab_Teaching_Guide.md`
+  Instructor-facing guide with learning goals, classroom formats, module-specific teaching notes,
+  training-log interpretation, failure-mode guidance, and assessment ideas.
+
+- `docs/PINNLab_Example_Student_Worksheet.md`
+  A fillable student worksheet covering all five modules, with before/after prompts, parameter
+  recording tables, and model-comparison questions for Module 4.
+
+- `docs/example_runs/README.md`
+  A guide for instructors on how to collect, organize, and caption representative PINNLab
+  screenshots for teaching use. The `example_runs/` directory is intentionally empty; instructors
+  add their own screenshots to this folder.
+  
 ---
 
 ## Module Descriptions
