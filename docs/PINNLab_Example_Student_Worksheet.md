@@ -294,17 +294,66 @@ Describe what happened and what you would try next.
 
 ---
 
-## Part 6. Module 4: Hare--Lynx Data
+## Part 6. Module 4: Model Comparison Using Hare--Lynx Data
 
-Module 4 fits real historical hare--lynx trapping data.
+Module 4 uses real historical Hudson's Bay hare--lynx trapping records.
 
-There are no true parameter values.
+Unlike previous modules, the true ecological parameters are unknown.
 
-The dashboard reports fitted estimates, not recovery errors.
+The goal is not parameter recovery.
 
-### Before Running
+The goal is to compare competing scientific models and determine which provides the most convincing explanation of the observed population cycles.
 
-Record your initial guesses.
+Run both:
+
+- Mod 4A: Lotka--Volterra
+- Mod 4B: Holling Type II
+
+---
+
+### Mod 4A: Lotka--Volterra
+
+#### Initial Guesses
+
+$$
+\alpha_{\text{init}} =
+$$
+
+$$
+\beta_{\text{init}} =
+$$
+
+$$
+\gamma_{\text{init}} =
+$$
+
+$$
+\delta_{\text{init}} =
+$$
+
+#### Fitted Estimates
+
+$$
+\hat{\alpha} =
+$$
+
+$$
+\hat{\beta} =
+$$
+
+$$
+\hat{\gamma} =
+$$
+
+$$
+\hat{\delta} =
+$$
+
+---
+
+### Mod 4B: Holling Type II
+
+#### Initial Guesses
 
 $$
 \alpha_{\text{init}} =
@@ -330,11 +379,7 @@ $$
 \delta_{\text{init}} =
 $$
 
----
-
-### After Running
-
-Record the fitted estimates.
+#### Fitted Estimates
 
 $$
 \hat{\alpha} =
@@ -360,15 +405,54 @@ $$
 \hat{\delta} =
 $$
 
-1. Did the fitted curves capture the major hare--lynx cycles?
+---
 
-2. Did the model appear physically consistent based on the physics residual?
+### Model Comparison
 
-3. Were the fitted parameters biologically plausible?
+Complete the table below after running both models.
 
-4. Did \(K\) or \(c\) become very large?
+| Metric | Lotka--Volterra | Holling Type II |
+|----------|----------|----------|
+| Final Data Loss | | |
+| Final Physics Loss | | |
+| Visual Fit to Data | | |
+| Parameter Stability | | |
+| Biological Plausibility | | |
 
-5. If so, what might that indicate?
+---
+
+### Reflection Questions
+
+1. Which model appeared to fit the historical hare--lynx cycles more accurately?
+
+2. Which model achieved the lower data loss?
+
+3. Which model achieved the lower physics loss?
+
+4. Did either model produce parameter estimates that appeared unrealistic?
+
+5. Did the additional parameters \(K\) and \(c\) substantially improve model performance?
+
+6. Is a more complex model always preferable? Explain your reasoning.
+
+7. If the two models fit similarly well, which would you choose and why?
+
+8. Based on the evidence above, which model provides the most convincing explanation of the observed population cycles?
+
+---
+
+### Scientific Interpretation
+
+In real scientific applications, the true governing equations are often unknown.
+
+Scientists frequently compare multiple competing models against the same observations and evaluate:
+
+- Agreement with data
+- Consistency with known physics
+- Parameter interpretability
+- Model complexity
+
+Module 4 mirrors this process by treating the historical hare--lynx record as an authentic model-selection problem rather than a parameter-recovery exercise.
 
 ---
 
