@@ -168,7 +168,7 @@ Example of partial parameter recovery in Module 3. The reconstructed trajectorie
 For Module 4:
 
 ```text
-PINNLab output for the historical hare--lynx dataset. Because the true ecological parameters are unknown, estimates should be interpreted as fitted calibration values rather than recovered ground truth.
+Comparison of Lotka--Volterra and Holling Type II fits to the historical hare--lynx dataset. Because the true ecological parameters are unknown, the objective is model evaluation rather than parameter recovery. Students compare data fit, physics consistency, parameter stability, and biological plausibility to determine which model provides the most convincing explanation of the observed population cycles.
 ```
 
 ---
