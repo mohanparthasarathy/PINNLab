@@ -1,5 +1,5 @@
 % Copyright: Mohan Parthasarathy 2026
-function run_PINN_Population(app, trainParams, k_true)
+function run_PINN_Population(app, trainParams, k_true, k_init)
     %% 1. Setup
     noise_pct = trainParams.Noise; 
     max_epochs = trainParams.MaxEpochs; 
@@ -16,8 +16,9 @@ function run_PINN_Population(app, trainParams, k_true)
     dlT_data = dlarray(t_norm', 'CB'); dlY_data = dlarray(y_noisy', 'CB'); dlT_f = dlarray(linspace(-1,1,1000), 'CB');
     
     %% 2. Network
+    rng(42); % Reproducible network initialization for classroom demonstrations
     dlnet = dlnetwork(layerGraph([featureInputLayer(1); fullyConnectedLayer(50); tanhLayer; fullyConnectedLayer(50); tanhLayer; fullyConnectedLayer(1)]));
-    k = dlarray(0.5); % Bad initial guess
+    k = dlarray(k_init);
     
     %% 3. Plot Setup (FIXED LEGENDS)
     cla(app.TopAxes); hold(app.TopAxes, 'on');
@@ -32,7 +33,13 @@ function run_PINN_Population(app, trainParams, k_true)
     
     %% 4. Training
     avgY=[]; sqAvgY=[]; avgK=[]; sqAvgK=[];
-    app.LogTextArea.Value = ["Starting Training Loop..."; app.LogTextArea.Value]; drawnow;
+    app.LogTextArea.Value = [
+        "Starting Training Loop...";
+        sprintf("True k = %.4g | Initial k = %.4g", k_true, k_init);
+        "Log columns: L_total, L_data, L_phys, w_data, w_phys.";
+        app.LogTextArea.Value
+    ]; 
+    drawnow;
     rem_eps = max_epochs - warmup_epochs; phase2_end = warmup_epochs + floor(rem_eps * 0.7);
     
     for epoch = 1:max_epochs
@@ -46,7 +53,7 @@ function run_PINN_Population(app, trainParams, k_true)
             lam=1; lr=1e-4; phase="Fine Tune"; upd_net=true; upd_k=true; dw=20; 
         end
         
-        [loss, gY, gK] = dlfeval(@lossPop, dlnet, k, dlT_data, dlY_data, dlT_f, dt_scale, lam, dw);
+        [loss, gY, gK, lD, lP] = dlfeval(@lossPop, dlnet, k, dlT_data, dlY_data, dlT_f, dt_scale, lam, dw);
         
         if upd_net
             [dlnet, avgY, sqAvgY] = adamupdate(dlnet, gY, avgY, sqAvgY, epoch, lr); 
@@ -58,7 +65,7 @@ function run_PINN_Population(app, trainParams, k_true)
         if mod(epoch, 100) == 0
             kval = extractdata(k);
             if mod(epoch, 500) == 0 || epoch < 200
-                app.LogTextArea.Value = [sprintf("Ep %d (%s) | L %.4f", epoch, phase, extractdata(loss)); app.LogTextArea.Value]; 
+                app.LogTextArea.Value = [sprintf("Ep %d | Phase: %s | L_total=%.4e | L_data=%.4e | L_phys=%.4e | w_data=%g | w_phys=%g", epoch, char(phase), extractdata(loss), extractdata(lD), extractdata(lP), dw, lam); app.LogTextArea.Value]; 
             end
             t_eval = dlarray(linspace(-1,1,100), 'CB'); y_eval = extractdata(forward(dlnet, t_eval));
             clearpoints(hPred); addpoints(hPred, linspace(0,5,100), y_eval);
@@ -67,11 +74,12 @@ function run_PINN_Population(app, trainParams, k_true)
         end
     end
     
-    app.UITable.Data = {'Growth Rate (k)', k_true, extractdata(k), abs(extractdata(k)-k_true)/k_true*100};
+    app.UITable.ColumnName = {'Param', 'True Value', 'Initial Guess', 'Estimate', 'Err %'};
+    app.UITable.Data = {'Growth Rate (k)', k_true, k_init, extractdata(k), abs(extractdata(k)-k_true)/k_true*100};
     app.LogTextArea.Value = ["Done."; app.LogTextArea.Value];
 end
 
-function [loss, gY, gK] = lossPop(net, k, Td, Yd, Tf, dt_s, lam, dw)
+function [loss, gY, gK, lD, lP] = lossPop(net, k, Td, Yd, Tf, dt_s, lam, dw)
     Yp = forward(net, Td); 
     lD = mse(Yp, Yd);
     
