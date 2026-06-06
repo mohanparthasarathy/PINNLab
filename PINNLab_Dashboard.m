@@ -130,7 +130,11 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                     latexStr = ['$$ \frac{dx}{dt} = \alpha x(1-\frac{x}{K}) - \frac{\beta xy}{c+x} $$' newline ...
                                 '$$ \frac{dy}{dt} = -\gamma y + \frac{\delta \beta xy}{c+x} $$'];
                     fSize = 14;
-                case 'Mod 4: Evaluate (Hare/Lynx Data)'
+                case 'Mod 4A: Evaluate (Hare/Lynx, Lotka-Volterra)'
+                    latexStr = ['$$ \frac{dx}{dt} = \alpha x - \beta xy $$' newline ...
+                                '$$ \frac{dy}{dt} = -\gamma y + \delta xy $$'];
+                    fSize = 14;
+                case 'Mod 4B: Evaluate (Hare/Lynx, Holling Type II)'
                     latexStr = ['$$ \frac{dx}{dt} = \alpha x(1-\frac{x}{K}) - \frac{\beta xy}{c+x} $$' newline ...
                                 '$$ \frac{dy}{dt} = -\gamma y + \frac{\delta \beta xy}{c+x} $$'];
                     fSize = 14;
@@ -269,7 +273,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                         'Color', [0.35 0.35 0.35]);
                 end
 
-            elseif strcmp(model, 'Mod 4: Evaluate (Hare/Lynx Data)')
+            elseif startsWith(model, 'Mod 4')
                 app.ParamHeaderLabel.Text = 'Initial Parameter Guesses:';
                 app.STARTButton.Text = 'START TRAINING';
                 app.STARTButton.BackgroundColor = [0.1 0.6 0.3];
@@ -307,7 +311,10 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                         'Alpha Init', 'K Init', 'Beta Init', 'c Init', 'Gamma Init', 'Delta Init'};
                     pDefaults = [1.0, 50.0, 2.2, 8.0, 0.7, 0.9, ...
                                  0.9, 45.0, 2.0, 10.0, 0.6, 0.8];
-                case 'Mod 4: Evaluate (Hare/Lynx Data)'
+                case 'Mod 4A: Evaluate (Hare/Lynx, Lotka-Volterra)'
+                    pNames = {'Alpha Guess', 'Beta Guess', 'Gamma Guess', 'Delta Guess'};
+                    pDefaults = [0.5, 0.01, 0.5, 0.01];
+                case 'Mod 4B: Evaluate (Hare/Lynx, Holling Type II)'
                     pNames = {'Alpha Guess', 'K Guess', 'Beta Guess', 'c Guess', 'Gamma Guess', 'Delta Guess'};
                     pDefaults = [0.5, 100.0, 0.5, 20.0, 0.5, 0.5];
             end
@@ -392,9 +399,12 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                         true_params = cell2mat(rawValues(1:6));
                         init_params = cell2mat(rawValues(7:12));
                         run_PINN_HollingsTypeII(app, trainParams, true_params, init_params, false); 
-                    case 'Mod 4: Evaluate (Hare/Lynx Data)'
+                    case 'Mod 4A: Evaluate (Hare/Lynx, Lotka-Volterra)'
                         init_params = cell2mat(rawValues);
-                        run_PINN_HollingsTypeII(app, trainParams, init_params, init_params, true);
+                        run_PINN_HollingsTypeII(app, trainParams, init_params, init_params, true, 'Lotka-Volterra');
+                    case 'Mod 4B: Evaluate (Hare/Lynx, Holling Type II)'
+                        init_params = cell2mat(rawValues);
+                        run_PINN_HollingsTypeII(app, trainParams, init_params, init_params, true, 'Holling Type II');
                 end
             catch ME
                 logMsg(app, "CRITICAL ERROR: " + string(ME.message));
@@ -408,7 +418,26 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 app.ModelDropDown.Enable = 'on';
                 app.EpochsEditField.Enable = 'on';
                 app.WarmupEditField.Enable = 'on';
-                updateParameterFields(app); 
+            
+                % Re-enable parameter fields without rebuilding the module UI.
+                for k = 1:numel(app.ParamFields)
+                    if isvalid(app.ParamFields{k})
+                        app.ParamFields{k}.Enable = 'on';
+                    end
+                end
+            
+                % Restore the correct controls after training without clearing plots.
+                if strcmp(model, 'Mod 4A: Evaluate (Hare/Lynx, Lotka-Volterra)') || ...
+                   strcmp(model, 'Mod 4B: Evaluate (Hare/Lynx, Holling Type II)')
+                    app.NoiseEditField.Enable = 'off';
+                elseif strcmp(model, 'Mod 0: Engage (PhET Simulation)')
+                    app.NoiseEditField.Enable = 'off';
+                    app.EpochsEditField.Enable = 'off';
+                    app.WarmupEditField.Enable = 'off';
+                else
+                    app.NoiseEditField.Enable = 'on';
+                end
+            
                 logMsg(app, "Modeling Cycle Complete.");
             end
         end
@@ -463,7 +492,8 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 'Mod 1: Explore (Forced ODE)', ...
                 'Mod 2: Explain (Lotka-Volterra)', ...
                 'Mod 3: Elaborate (Holling''s Type II)', ...
-                'Mod 4: Evaluate (Hare/Lynx Data)'};
+                'Mod 4A: Evaluate (Hare/Lynx, Lotka-Volterra)', ...
+                'Mod 4B: Evaluate (Hare/Lynx, Holling Type II)'};
             app.ModelDropDown.Value = 'Demo: Exponential Growth';
             app.ModelDropDown.Layout.Row = 2;
             app.ModelDropDown.FontName = stdFont; app.ModelDropDown.FontSize = stdSize;
