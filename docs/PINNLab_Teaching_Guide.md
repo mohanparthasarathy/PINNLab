@@ -175,9 +175,7 @@ $$
 
 The code uses the log transformation
 $$
-\
 u(t)=\log(y(t)).
-\
 $$
 
 The residual becomes
