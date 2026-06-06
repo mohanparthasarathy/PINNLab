@@ -243,19 +243,28 @@ Suggested prompt:
 
 ### Module 4: Evaluate
 
-Module 4 fits the historical Hudson Bay hare--lynx trapping data.
+Module 4 shifts from synthetic data to historical ecological observations.
 
-Important points to emphasize:
+Students fit two competing predator–prey models to the same Hudson's Bay hare and lynx dataset, conssisting of proxy observations:
 
-- The true parameters are unknown.
-- The table reports initial guesses and fitted estimates, not recovery errors.
-- The data are proxy observations, not direct census counts.
-- A fitted model should be evaluated using data fit, physics residual, parameter stability, and biological plausibility.
-- Large fitted values of \(K\) or \(c\) may indicate weak identifiability or model inadequacy.
+1. Lotka–Volterra
+2. Holling Type II
 
-Suggested prompt:
+Unlike previous modules, the goal is not parameter recovery because the true parameters are unknown. Instead, students evaluate:
 
-> Does the model fit the data visually? Does it satisfy the differential equation? Are the fitted parameters biologically plausible?
+- Data fit
+- Physics residuals
+- Parameter stability
+- Biological plausibility
+
+Suggested discussion questions:
+
+- Which model better captures the observed oscillations?
+- Does the more complex model provide a meaningful improvement?
+- Are any fitted parameters biologically unreasonable?
+- Should we always prefer the model with the lowest data loss?
+
+This activity mirrors authentic scientific model selection.
 
 ---
 
