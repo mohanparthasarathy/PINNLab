@@ -50,7 +50,7 @@ For Module 0, the dashboard opens the external PhET Natural Selection simulation
 
 PINNLab requires:
 
-- MATLAB
+- MATLAB R2019b or later (required; the code uses `dlarray`, `dlnetwork`, and `dlgradient` introduced in R2019b)
 - Deep Learning Toolbox
 - Statistics and Machine Learning Toolbox is helpful but not generally required for the included modules
 - Internet access for Module 0, since the PhET simulation opens in a web browser
