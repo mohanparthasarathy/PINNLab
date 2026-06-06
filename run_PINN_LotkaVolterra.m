@@ -71,7 +71,7 @@ function run_PINN_LotkaVolterra(app, trainParams, true_params, init_params)
         "Starting Training Loop...";
         sprintf("True params [alpha beta gamma delta] = [%.4g %.4g %.4g %.4g]", p_true(1), p_true(2), p_true(3), p_true(4));
         sprintf("Initial guesses [alpha beta gamma delta] = [%.4g %.4g %.4g %.4g]", p_init(1), p_init(2), p_init(3), p_init(4));
-        "Log columns: L_total, L_data, L_phys.";
+        "Log columns: L_total, L_data, L_phys, w_phys.";
         "Note: L_phys is scale-normalized so data fit and physics residual are more comparable.";
         app.LogTextArea.Value
     ];
@@ -127,8 +127,7 @@ function run_PINN_LotkaVolterra(app, trainParams, true_params, init_params)
         if mod(epoch, 100) == 0
             if mod(epoch, 500) == 0 || epoch < 200
                 app.LogTextArea.Value = [
-                    sprintf("Ep %d | Phase: %s | L_total=%.4e | L_data=%.4e | L_phys=%.4e", ...
-                    epoch, char(phase), extractdata(loss), extractdata(lD), extractdata(lP));
+                    sprintf("Ep %d | Phase: %s | L_total=%.4e | L_data=%.4e | L_phys=%.4e | w_data=%g | w_phys=%g", epoch, char(phase), extractdata(loss), extractdata(lD), extractdata(lP), dw, lam);
                     app.LogTextArea.Value
                 ];
             end
