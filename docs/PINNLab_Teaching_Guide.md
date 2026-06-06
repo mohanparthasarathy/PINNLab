@@ -179,6 +179,7 @@ $$
 u(t)=\log(y(t)).
 \
 $$
+
 The residual becomes
 $$
 \
