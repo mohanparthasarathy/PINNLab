@@ -253,19 +253,17 @@ This module is useful for discussing:
 
 ### Module 4: Evaluate — Hare--Lynx Data
 
-Module 4 applies the Holling Type II model to historical Hudson Bay hare--lynx trapping data.
 
-Unlike Modules 1--3, there are no true parameters. The values entered in the dashboard are initial guesses, and the final estimates should be interpreted as fitted calibration values rather than biological ground truth.
+Students fit competing predator–prey models to the historical Hudson's Bay hare and lynx dataset. Two options are available:
 
-Students compare:
+- Mod 4A: Lotka–Volterra
+- Mod 4B: Holling Type II
 
-- visual fit to the data,
-- data loss,
-- physics residual,
-- parameter stability,
-- biological plausibility.
+Students compare data fit, physics consistency, parameter stability, and biological plausibility to determine which model provides the most convincing explanation of the observed population cycles.
 
-Large values of \(K\) or \(c\) may indicate that the model is using carrying capacity or half-saturation as flexible fitting terms rather than identifying biologically meaningful constants. This is a valuable modeling lesson: real data may be noisy, indirect, incomplete, or inconsistent with the assumptions of the proposed ODE model.
+This module emphasizes model evaluation rather than parameter recovery, since the true ecological parameters are unknown. The values entered in the dashboard are initial guesses, and the final estimates should be interpreted as fitted calibration values rather than biological ground truth.
+
+Large estimates of \(K\) or \(c\) in the Holling Type II model may indicate that the model is using carrying capacity or half-saturation as flexible fitting terms rather than identifying biologically meaningful constants. This is a valuable modeling lesson: real data may be noisy, indirect, incomplete, or inconsistent with the assumptions of the proposed ODE model.
 
 ---
 
