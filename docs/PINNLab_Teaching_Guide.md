@@ -168,22 +168,23 @@ Suggested prompt:
 Module 1 uses the forced ODE
 
 $$
-\[
+\
 \frac{dy}{dt}-ky=Q(t).
-\]
+\
 $$
 
 The code uses the log transformation
-
-\[
+$$
+\
 u(t)=\log(y(t)).
-\]
-
+\
+$$
 The residual becomes
-
-\[
+$$
+\
 u'(t)-k-Q(t)e^{-u(t)}=0.
-\]
+\
+$$
 
 Important points to emphasize:
 
@@ -201,14 +202,16 @@ Suggested prompt:
 ### Module 2: Explain
 
 Module 2 uses the Lotka--Volterra system
-
-\[
+$$
+\
 \frac{dx}{dt}=\alpha x-\beta xy,
-\]
-
-\[
+\
+$$
+$$
+\
 \frac{dy}{dt}=-\gamma y+\delta xy.
-\]
+\
+$$
 
 Important points to emphasize:
 
