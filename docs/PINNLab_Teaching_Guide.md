@@ -245,7 +245,7 @@ Suggested prompt:
 
 Module 4 shifts from synthetic data to historical ecological observations.
 
-Students fit two competing predator–prey models to the same Hudson's Bay hare and lynx dataset, conssisting of proxy observations:
+Students fit two competing predator–prey models to the same Hudson's Bay hare and lynx dataset, consisting of proxy observations:
 
 1. Lotka–Volterra
 2. Holling Type II
