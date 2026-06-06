@@ -46,8 +46,8 @@ Recommended test settings:
 |---|---:|---:|---:|
 | Demo | 3000--8000 | 500--1000 | 5 |
 | Module 1 | 3000--8000 | 500--1000 | 5 |
-| Module 2 | 5000--8000 | 500--1000 | 2--5 |
-| Module 3 | 8000 | 500--1000 | 2--5 |
+| Module 2 | 5000--8000 | 500--1000 | 3--5 |
+| Module 3 | 8000 | 500--1000 | 3--5 |
 | Module 4 | 8000 | 500--1000 | Real data |
 
 Because PINN training can be sensitive to initialization and scaling, instructors should run the examples before class and decide whether to present a successful run, a failed run, or both.
