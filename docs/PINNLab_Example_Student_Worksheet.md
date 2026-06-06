@@ -1,4 +1,4 @@
-# PINNLab Student Worksheet
+# PINNLab Example Student Worksheet
 
 Name:
 
@@ -12,9 +12,9 @@ Course:
 
 The model is
 
-\[
+$$
 \frac{dy}{dt}=ky.
-\]
+$$
 
 ### Before Running
 
@@ -24,15 +24,15 @@ The model is
 
 3. What initial guess did you choose for \(k\)?
 
-   \[
-   k_{\text{init}} =
-   \]
+$$
+k_{\text{init}} =
+$$
 
 4. What true value did you choose for \(k\)?
 
-   \[
-   k_{\text{true}} =
-   \]
+$$
+k_{\text{true}} =
+$$
 
 ---
 
@@ -40,9 +40,9 @@ The model is
 
 1. What final estimate did the PINN report?
 
-   \[
-   \hat{k} =
-   \]
+$$
+\hat{k} =
+$$
 
 2. Did the fitted curve match the noisy data well?
 
@@ -72,15 +72,15 @@ Module 0 uses the PhET Natural Selection simulation as qualitative motivation.
 
 The model is
 
-\[
+$$
 \frac{dy}{dt}-ky=Q(t).
-\]
+$$
 
 The module uses the transformation
 
-\[
+$$
 u(t)=\log(y(t)).
-\]
+$$
 
 ### Before Running
 
@@ -90,13 +90,13 @@ u(t)=\log(y(t)).
 
 3. What true value and initial guess did you use for \(k\)?
 
-   \[
-   k_{\text{true}} =
-   \]
+$$
+k_{\text{true}} =
+$$
 
-   \[
-   k_{\text{init}} =
-   \]
+$$
+k_{\text{init}} =
+$$
 
 ---
 
@@ -104,9 +104,9 @@ u(t)=\log(y(t)).
 
 1. What final estimate did the PINN report?
 
-   \[
-   \hat{k} =
-   \]
+$$
+\hat{k} =
+$$
 
 2. Did the recovered state match the noisy data?
 
@@ -126,13 +126,13 @@ u(t)=\log(y(t)).
 
 The model is
 
-\[
-\frac{dx}{dt}=\alpha x-\beta xy,
-\]
+$$
+\frac{dx}{dt}=\alpha x-\beta xy.
+$$
 
-\[
+$$
 \frac{dy}{dt}=-\gamma y+\delta xy.
-\]
+$$
 
 ### Parameter Interpretation
 
@@ -152,39 +152,39 @@ Briefly describe each parameter.
 
 Record your true parameters.
 
-\[
+$$
 \alpha_{\text{true}} =
-\]
+$$
 
-\[
+$$
 \beta_{\text{true}} =
-\]
+$$
 
-\[
+$$
 \gamma_{\text{true}} =
-\]
+$$
 
-\[
+$$
 \delta_{\text{true}} =
-\]
+$$
 
 Record your initial guesses.
 
-\[
+$$
 \alpha_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \beta_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \gamma_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \delta_{\text{init}} =
-\]
+$$
 
 ---
 
@@ -192,21 +192,21 @@ Record your initial guesses.
 
 Record the final estimates.
 
-\[
+$$
 \hat{\alpha} =
-\]
+$$
 
-\[
+$$
 \hat{\beta} =
-\]
+$$
 
-\[
+$$
 \hat{\gamma} =
-\]
+$$
 
-\[
+$$
 \hat{\delta} =
-\]
+$$
 
 1. Did the prey trajectory fit the data well?
 
@@ -238,21 +238,13 @@ Rerun Module 2 with different initial guesses.
 
 The model is
 
-\[
-\frac{dx}{dt}
-=
-\alpha x\left(1-\frac{x}{K}\right)
--
-\frac{\beta xy}{c+x},
-\]
+$$
+\frac{dx}{dt}=\alpha x\left(1-\frac{x}{K}\right)-\frac{\beta xy}{c+x}.
+$$
 
-\[
-\frac{dy}{dt}
-=
--\gamma y
-+
-\frac{\delta\beta xy}{c+x}.
-\]
+$$
+\frac{dy}{dt}=-\gamma y+\frac{\delta\beta xy}{c+x}.
+$$
 
 ### Parameter Interpretation
 
@@ -314,29 +306,29 @@ The dashboard reports fitted estimates, not recovery errors.
 
 Record your initial guesses.
 
-\[
+$$
 \alpha_{\text{init}} =
-\]
+$$
 
-\[
+$$
 K_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \beta_{\text{init}} =
-\]
+$$
 
-\[
+$$
 c_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \gamma_{\text{init}} =
-\]
+$$
 
-\[
+$$
 \delta_{\text{init}} =
-\]
+$$
 
 ---
 
@@ -344,29 +336,29 @@ c_{\text{init}} =
 
 Record the fitted estimates.
 
-\[
+$$
 \hat{\alpha} =
-\]
+$$
 
-\[
+$$
 \hat{K} =
-\]
+$$
 
-\[
+$$
 \hat{\beta} =
-\]
+$$
 
-\[
+$$
 \hat{c} =
-\]
+$$
 
-\[
+$$
 \hat{\gamma} =
-\]
+$$
 
-\[
+$$
 \hat{\delta} =
-\]
+$$
 
 1. Did the fitted curves capture the major hare--lynx cycles?
 
