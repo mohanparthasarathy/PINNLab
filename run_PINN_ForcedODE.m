@@ -2,7 +2,8 @@
 function run_PINN_ForcedODE(app, trainParams, user_params)
     %% 1. Setup & Parsing
     k_true = user_params{1}; 
-    Q_str  = user_params{2};
+    k_init = user_params{2};
+    Q_str  = user_params{3};
     noise_pct = trainParams.Noise; 
     max_epochs = trainParams.MaxEpochs; 
     warmup_epochs = trainParams.WarmupEpochs;
@@ -45,6 +46,7 @@ function run_PINN_ForcedODE(app, trainParams, user_params)
     dlTf = dlarray(linspace(-1,1,1000), 'CB'); 
     
     %% 2. Network Architecture (Predicting stable variable u)
+    rng(42); % Reproducible network initialization for classroom demonstrations
     layers = [
         featureInputLayer(1)
         fullyConnectedLayer(50)
@@ -54,22 +56,54 @@ function run_PINN_ForcedODE(app, trainParams, user_params)
         fullyConnectedLayer(1)
     ];
     dlnet = dlnetwork(layerGraph(layers));
-    k_est = dlarray(0.1);
+    k_est = dlarray(k_init);
     
     %% 3. Plot Initialization
     cla(app.TopAxes); hold(app.TopAxes, 'on');
+    plot(app.TopAxes, t, y_noisy, 'k.', 'MarkerSize', 12, 'DisplayName', 'Noisy Population Data');
+    hPred = animatedline(app.TopAxes, 'Color', '#0072BD', 'LineWidth', 2, 'DisplayName', 'PINN Recovered State');
+    yyaxis(app.TopAxes, 'right');
+    app.TopAxes.YAxis(2).Visible = 'on';
     t_dense = linspace(t_min, t_max, 200);
-    plot(app.TopAxes, t_dense, Q_fun(t_dense), 'r-', 'LineWidth', 2);
-    title(app.TopAxes, ['Environmental Forcing Q(t) = ' char(Q_str)]); 
+    plot(app.TopAxes, t_dense, Q_fun(t_dense), 'r-', 'LineWidth', 1.5, 'DisplayName', 'Q(t)');
+    ylabel(app.TopAxes, 'Forcing Q(t)');
+    yyaxis(app.TopAxes, 'left');
+    ylabel(app.TopAxes, 'Population y(t)');
+    title(app.TopAxes, ['Forced ODE: Q(t) = ' char(Q_str)]);
+    legend(app.TopAxes, 'Location', 'northwest');
     
-    cla(app.BottomAxes); hold(app.BottomAxes, 'on');
-    plot(app.BottomAxes, t, y_noisy, 'k.', 'MarkerSize', 12, 'DisplayName', 'Noisy Population Data');
-    hPred = animatedline(app.BottomAxes, 'Color', '#0072BD', 'LineWidth', 2, 'DisplayName', 'PINN Recovered State');
-    legend(app.BottomAxes, 'Location', 'northwest');
+    yyaxis(app.TopAxes, 'left');
+
+    cla(app.BottomAxes);
+    yyaxis(app.BottomAxes, 'right');
+    ylabel(app.BottomAxes, '');
+    cla(app.BottomAxes);
     
+    yyaxis(app.BottomAxes, 'left');
+    cla(app.BottomAxes);
+    hold(app.BottomAxes, 'on');
+    
+    hK = animatedline(app.BottomAxes, 'Color', 'r', 'LineWidth', 1.5, 'DisplayName', 'Estimated k');
+    yline(app.BottomAxes, k_true, 'k--', 'DisplayName', 'True k');
+    title(app.BottomAxes, 'Parameter Convergence');
+    xlabel(app.BottomAxes, 'Epoch');
+    ylabel(app.BottomAxes, 'k');
+    legend(app.BottomAxes, 'Location', 'best');
+    if numel(app.BottomAxes.YAxis) > 1
+        app.BottomAxes.YAxis(2).Label.String = '';
+        app.BottomAxes.YAxis(2).Visible = 'off';
+    end
+    yyaxis(app.BottomAxes, 'left');
+
     %% 4. Training Loop
     avgNet=[]; sqNet=[]; avgK=[]; sqK=[];
-    app.LogTextArea.Value = ["Executing Log-Transformed Training..."; app.LogTextArea.Value]; 
+    app.LogTextArea.Value = [
+        "Executing Log-Transformed Training...";
+        sprintf("True k = %.4g | Initial k = %.4g", k_true, k_init);
+        "Log-state training active: optimizing u(t)=log(y(t)) for numerical stability.";
+        "Log columns: L_total, L_data, L_phys, w_data, w_phys.";
+        app.LogTextArea.Value
+    ]; 
     drawnow;
     
     phase2_end = warmup_epochs + floor((max_epochs - warmup_epochs) * 0.6);
@@ -85,14 +119,14 @@ function run_PINN_ForcedODE(app, trainParams, user_params)
             lam=1.0; lr=0.001; phase="Physics Fine Tune"; upd_k=true; 
         end
         
-        [loss, gNet, gK] = dlfeval(@lossLogODE, dlnet, k_est, dlT, dlU, dlTf, dt_scale, u_mean, u_std, lam, Q_fun, t_min, t_max);
+        [loss, gNet, gK, lD, lP] = dlfeval(@lossLogODE, dlnet, k_est, dlT, dlU, dlTf, dt_scale, u_mean, u_std, lam, Q_fun, t_min, t_max);
         
         [dlnet, avgNet, sqNet] = adamupdate(dlnet, gNet, avgNet, sqNet, epoch, lr);
         if upd_k, [k_est, avgK, sqK] = adamupdate(k_est, gK, avgK, sqK, epoch, lr); end
         
         if mod(epoch, 100) == 0
             if mod(epoch, 500) == 0 || epoch == 1
-                app.LogTextArea.Value = [sprintf("Ep %d (%s) | Loss: %.4e", epoch, phase, extractdata(loss)); app.LogTextArea.Value]; 
+                app.LogTextArea.Value = [sprintf("Ep %d | Phase: %s | L_total=%.4e | L_data=%.4e | L_phys=%.4e | w_data=10 | w_phys=%g | log_state=on", epoch, char(phase), extractdata(loss), extractdata(lD), extractdata(lP), lam); app.LogTextArea.Value]; 
             end
             
             % Inverse transform for visualization: y = exp(u*std + mu)
@@ -103,17 +137,19 @@ function run_PINN_ForcedODE(app, trainParams, user_params)
             
             clearpoints(hPred); 
             addpoints(hPred, t_eval_real, y_pred_real);
+            addpoints(hK, epoch, extractdata(k_est));
             drawnow limitrate;
         end
     end
     
     final_k = extractdata(k_est);
     err = abs(final_k - k_true) / k_true * 100;
-    app.UITable.Data = {'Intrinsic k', k_true, final_k, err};
+    app.UITable.ColumnName = {'Param', 'True Value', 'Initial Guess', 'Estimate', 'Err %'};
+    app.UITable.Data = {'Intrinsic k', k_true, k_init, final_k, err};
     app.LogTextArea.Value = ["Explore Phase Complete."; app.LogTextArea.Value];
 end
 
-function [loss, gNet, gK] = lossLogODE(net, k, Td, Ud, Tf, dt_s, u_mu, u_sig, lam, Q_fun, t_min, t_max)
+function [loss, gNet, gK, lD, lP] = lossLogODE(net, k, Td, Ud, Tf, dt_s, u_mu, u_sig, lam, Q_fun, t_min, t_max)
     U_pred = forward(net, Td); 
     lD = mse(U_pred, Ud);
     
