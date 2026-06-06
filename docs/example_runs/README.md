@@ -15,7 +15,9 @@ example_runs/
         module2_lotka_volterra_success.png
         module3_holling_success.png
         module3_holling_failure_mode.png
-        module4_hare_lynx_fit.png
+        module4A_lotka_volterra_hare_lynx.png
+        module4B_holling_hare_lynx.png
+        module4_model_comparison.png
 ```
 
 The screenshot filenames above are suggestions only.
@@ -100,19 +102,52 @@ Teaching use:
 
 ---
 
-### Module 4: Hare--Lynx Data
+### Module 4A: Hare--Lynx Data (Lotka--Volterra)
 
 Suggested screenshot:
 
 - historical hare data,
 - historical lynx data,
 - fitted trajectories,
+- four parameter traces,
+- fitted parameter table.
+
+Teaching use:
+
+> Demonstrates calibration of the classical Lotka--Volterra model to real ecological observations. Students evaluate model adequacy when the true parameters are unknown.
+
+---
+
+### Module 4B: Hare--Lynx Data (Holling Type II)
+
+Suggested screenshot:
+
+- historical hare data,
+- historical lynx data,
+- fitted trajectories,
+- six parameter traces,
 - fitted parameter table,
 - any diagnostic warning about large \(K\) or \(c\).
 
 Teaching use:
 
-> Shows the difference between synthetic parameter recovery and real-data model calibration.
+> Demonstrates calibration of a more biologically realistic predator--prey model and provides a basis for comparison with the Lotka--Volterra formulation.
+
+---
+
+### Module 4: Model Comparison
+
+Suggested screenshot:
+
+- results from both Module 4A and Module 4B,
+- final data losses,
+- final physics losses,
+- fitted parameter summaries,
+- student comparison worksheet or summary table.
+
+Teaching use:
+
+> Emphasizes scientific model selection rather than parameter recovery. Students compare competing explanations of the same historical dataset and evaluate whether the additional complexity of the Holling Type II model is justified.
 
 ---
 
