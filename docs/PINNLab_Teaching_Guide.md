@@ -201,11 +201,13 @@ Suggested prompt:
 Module 2 uses the Lotka--Volterra system
 
 $$
-\begin{aligned}
-\frac{dx}{dt} &= \alpha x-\beta xy, \\
-\frac{dy}{dt} &= -\gamma y+\delta xy.
-\end{aligned}
+\frac{dx}{dt}=\alpha x-\beta xy.
 $$
+
+$$
+\frac{dy}{dt}=-\gamma y+\delta xy.
+$$
+
 Important points to emphasize:
 
 - The network outputs two state variables.
