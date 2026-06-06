@@ -1,6 +1,6 @@
 % Copyright: Mohan Parthasarathy 2026
 % PINNLab: An Interactive Educational Dashboard for Data-Driven Modeling
-% Organized via the 5E Instructional Framework (Ecological Dynamics)
+% Organized via the 5E Instructional Framework centered on Ecological Dynamics
 
 classdef PINNLab_Dashboard < matlab.apps.AppBase
     
@@ -85,20 +85,32 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
         % Helper: Aggressively Clear Axes for Redraws
         function clearAxes(~, ax)
             legend(ax, 'off');
-            legend(ax, 'reset'); 
-            delete(findall(ax, 'Type', 'ConstantLine')); 
-            delete(findall(ax, 'Type', 'animatedline')); 
-            delete(findall(ax, 'Type', 'line'));         
-            cla(ax);             
-            delete(ax.Children); 
-            title(ax, '');       
-            xlabel(ax, ''); 
+            legend(ax, 'reset');
+            yyaxis(ax, 'right');
+            cla(ax);
             ylabel(ax, '');
-            grid(ax, 'off'); 
-            box(ax, 'on');
-            hold(ax, 'on');      
-        end
+            ax.YAxis(2).Visible = 'off';
         
+            yyaxis(ax, 'left');
+            cla(ax);
+            set(ax, 'YDir', 'normal');
+            ylabel(ax, '');
+            ax.YAxis(1).Visible = 'on';
+        
+            delete(findall(ax, 'Type', 'ConstantLine'));
+            delete(findall(ax, 'Type', 'animatedline'));
+            delete(findall(ax, 'Type', 'line'));
+            delete(findall(ax, 'Type', 'Text'));
+            delete(findall(ax, 'Type', 'Image'));
+        
+            title(ax, '');
+            xlabel(ax, '');
+            ylabel(ax, '');
+            grid(ax, 'off');
+            box(ax, 'on');
+            hold(ax, 'on');
+        end
+
         % Helper: Update Equation Display based on 5E Module
         function updateEquationDisplay(app)
             model = strtrim(app.ModelDropDown.Value);
@@ -129,7 +141,6 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
         
         % Helper: Update Parameter Input Fields
         function updateParameterFields(app)
-            % Clear existing fields
             delete(app.ParamLabels); 
             if ~isempty(app.ParamFields)
                 for k=1:numel(app.ParamFields)
@@ -140,26 +151,133 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             app.ParamFields = {}; 
             
             model = strtrim(app.ModelDropDown.Value);
+            if ~strcmp(model, 'Mod 0: Engage (PhET Simulation)')
+                clearAxes(app, app.TopAxes);
+                clearAxes(app, app.BottomAxes);
+            
+                app.TopAxes.Visible = 'on';
+                app.BottomAxes.Visible = 'on';
+            
+                app.TopAxes.XAxis.Visible = 'on';
+                app.TopAxes.YAxis(1).Visible = 'on';
+                if numel(app.TopAxes.YAxis) > 1
+                    app.TopAxes.YAxis(2).Visible = 'off';
+                    app.TopAxes.YAxis(2).Label.String = '';
+                end
+            
+                app.BottomAxes.XAxis.Visible = 'on';
+                app.BottomAxes.YAxis(1).Visible = 'on';
+                if numel(app.BottomAxes.YAxis) > 1
+                    app.BottomAxes.YAxis(2).Visible = 'off';
+                    app.BottomAxes.YAxis(2).Label.String = '';
+                end
+            
+                title(app.TopAxes, 'State Solution (Populations)');
+                title(app.BottomAxes, 'Real-Time Parameter Estimation');
+            end
+            app.TopAxes.Visible = 'on';
+            app.BottomAxes.Visible = 'on';
+            app.TopAxes.XAxis.Visible = 'on';
+            app.BottomAxes.XAxis.Visible = 'on';
+            app.TopAxes.YAxis(1).Visible = 'on';
+            if numel(app.TopAxes.YAxis) > 1
+                app.TopAxes.YAxis(2).Visible = 'off';
+                app.TopAxes.YAxis(2).Label.String = '';
+            end
+            
+            app.BottomAxes.YAxis(1).Visible = 'on';
+            if numel(app.BottomAxes.YAxis) > 1
+                app.BottomAxes.YAxis(2).Visible = 'off';
+                app.BottomAxes.YAxis(2).Label.String = '';
+            end
             lblFont = 'Arial'; lblSize = 14; 
             
             % UI Adaptations based on Module
             if strcmp(model, 'Mod 0: Engage (PhET Simulation)')
-                app.ParamHeaderLabel.Text = 'Simulation Settings:';
-                app.STARTButton.Text = 'OPEN SIMULATION';
-                app.STARTButton.BackgroundColor = [0.3 0.4 0.8]; % Orange
+                app.ParamHeaderLabel.Text = 'External Simulation:';
+                app.STARTButton.Text = 'OPEN PHET SIMULATION';
+                app.STARTButton.BackgroundColor = [0.3 0.4 0.8];
                 app.NoiseEditField.Enable = 'off';
                 app.EpochsEditField.Enable = 'off';
                 app.WarmupEditField.Enable = 'off';
-                return; % No mathematical parameters needed
+            
+                clearAxes(app, app.TopAxes);
+                clearAxes(app, app.BottomAxes);
+                app.TopAxes.Visible = 'on';
+                app.BottomAxes.Visible = 'on';
+                
+                app.TopAxes.XAxis.Visible = 'off';
+                app.TopAxes.YAxis(1).Visible = 'off';
+                if numel(app.TopAxes.YAxis) > 1
+                    app.TopAxes.YAxis(2).Visible = 'off';
+                    app.TopAxes.YAxis(2).Label.String = '';
+                end
+                
+                app.BottomAxes.XAxis.Visible = 'off';
+                app.BottomAxes.YAxis(1).Visible = 'off';
+                if numel(app.BottomAxes.YAxis) > 1
+                    app.BottomAxes.YAxis(2).Visible = 'off';
+                    app.BottomAxes.YAxis(2).Label.String = '';
+                end
+                
+                title(app.TopAxes, '');
+                title(app.BottomAxes, '');
+                
+                text(app.TopAxes, 0.5, 0.82, 'Module 0: Engage', ...
+                    'Units', 'normalized', ...
+                    'HorizontalAlignment', 'center', ...
+                    'FontSize', 30, ...
+                    'FontWeight', 'bold', ...
+                    'Color', [0 0.45 0.74]);
+                
+                text(app.TopAxes, 0.5, 0.58, ...
+                    {'Open the PhET Natural Selection simulation to build'; ...
+                     'qualitative ecological intuition before fitting ODE models.'; ...
+                     ''; ...
+                     'This activity is motivational only:'; ...
+                     'it is not a calibrated predator--prey simulator.'}, ...
+                    'Units', 'normalized', ...
+                    'HorizontalAlignment', 'center', ...
+                    'FontSize', 16, ...
+                    'Color', [0.15 0.15 0.15]);
+                
+                text(app.TopAxes, 0.5, 0.25, ...
+                    'Click OPEN PHET SIMULATION to launch the activity.', ...
+                    'Units', 'normalized', ...
+                    'HorizontalAlignment', 'center', ...
+                    'FontSize', 17, ...
+                    'FontWeight', 'bold', ...
+                    'Color', [0.1 0.1 0.1]);
+                
+                imgPath = fullfile(fileparts(mfilename('fullpath')), 'images', 'phet_natural_selection.png');
+                
+                if isfile(imgPath)
+                    img = imread(imgPath);
+                    imshow(img, 'Parent', app.BottomAxes);
+                    app.BottomAxes.XAxis.Visible = 'off';
+                    app.BottomAxes.YAxis(1).Visible = 'off';
+                    if numel(app.BottomAxes.YAxis) > 1
+                        app.BottomAxes.YAxis(2).Visible = 'off';
+                        app.BottomAxes.YAxis(2).Label.String = '';
+                    end
+                else
+                    text(app.BottomAxes, 0.5, 0.5, ...
+                        {'Add a screenshot at:'; 'images/phet_natural_selection.png'}, ...
+                        'Units', 'normalized', ...
+                        'HorizontalAlignment', 'center', ...
+                        'FontSize', 15, ...
+                        'Color', [0.35 0.35 0.35]);
+                end
+
             elseif strcmp(model, 'Mod 4: Evaluate (Hare/Lynx Data)')
                 app.ParamHeaderLabel.Text = 'Initial Parameter Guesses:';
                 app.STARTButton.Text = 'START TRAINING';
                 app.STARTButton.BackgroundColor = [0.1 0.6 0.3];
-                app.NoiseEditField.Enable = 'off'; % Real data contains inherent noise
+                app.NoiseEditField.Enable = 'off'; 
                 app.EpochsEditField.Enable = 'on';
                 app.WarmupEditField.Enable = 'on';
             else
-                app.ParamHeaderLabel.Text = 'True Parameters (Synthetic Data):';
+                app.ParamHeaderLabel.Text = 'True Parameters and Initial Guesses:';
                 app.STARTButton.Text = 'START TRAINING';
                 app.STARTButton.BackgroundColor = [0.1 0.6 0.3];
                 app.NoiseEditField.Enable = 'on';
@@ -168,18 +286,27 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             end
             
             % Assign Parameters
-            pNames = {}; pDefaults = [];
+            pNames = {}; 
+            pDefaults = [];
             switch model
                 case 'Demo: Exponential Growth'
-                    pNames = {'k (Growth)'}; pDefaults = [0.7];
+                    pNames = {'k True', 'k Init'};
+                    pDefaults = [0.7, 0.5];
                 case 'Mod 1: Explore (Forced ODE)'
-                    pNames = {'k (Growth)', 'Q(t) Forcing'}; pDefaults = [0.5, 0]; % Handled uniquely below
+                    pNames = {'k True', 'k Init', 'Q(t) Forcing'};
+                    pDefaults = [0.5, 0.1, 0]; 
                 case 'Mod 2: Explain (Lotka-Volterra)'
-                    pNames = {'Alpha (Prey Growth)', 'Beta (Predation)', 'Gamma (Pred Decay)', 'Delta (Reproduction)'};
-                    pDefaults = [1.5, 1.0, 3.0, 1.0];
+                    pNames = { ...
+                        'Alpha True', 'Beta True', 'Gamma True', 'Delta True', ...
+                        'Alpha Init', 'Beta Init', 'Gamma Init', 'Delta Init'};
+                    pDefaults = [1.5, 0.8, 2.9, 1.1, ...
+                                 1.0, 1.0, 1.0, 1.0];
                 case 'Mod 3: Elaborate (Holling''s Type II)'
-                    pNames = {'Alpha', 'K (Capacity)', 'Beta', 'c (Half-Sat)', 'Gamma', 'Delta'};
-                    pDefaults = [2.0, 50.0, 1.2, 10.0, 1.0, 0.8];
+                    pNames = { ...
+                        'Alpha True', 'K True', 'Beta True', 'c True', 'Gamma True', 'Delta True', ...
+                        'Alpha Init', 'K Init', 'Beta Init', 'c Init', 'Gamma Init', 'Delta Init'};
+                    pDefaults = [1.0, 50.0, 2.2, 8.0, 0.7, 0.9, ...
+                                 0.9, 45.0, 2.0, 10.0, 0.6, 0.8];
                 case 'Mod 4: Evaluate (Hare/Lynx Data)'
                     pNames = {'Alpha Guess', 'K Guess', 'Beta Guess', 'c Guess', 'Gamma Guess', 'Delta Guess'};
                     pDefaults = [0.5, 100.0, 0.5, 20.0, 0.5, 0.5];
@@ -196,8 +323,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 lbl.FontName = lblFont; lbl.FontSize = lblSize; lbl.FontColor = [0.2 0.2 0.2];
                 app.ParamLabels(i) = lbl;
                 
-                % Text field specifically for Q(t) in Mod 1
-                if strcmp(model, 'Mod 1: Explore (Forced ODE)') && i == 2
+                if strcmp(model, 'Mod 1: Explore (Forced ODE)') && i == 3
                     fld = uieditfield(app.ParamGrid, 'text');
                     fld.Value = "sin(2*t)";
                 else
@@ -216,7 +342,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             
             % Special Case: Engage Phase launches Web Browser
             if strcmp(model, 'Mod 0: Engage (PhET Simulation)')
-                logMsg(app, "Launching PhET Natural Selection Sandbox...");
+                logMsg(app, "Launching external PhET Natural Selection sandbox (qualitative motivation, not a calibrated predator-prey simulator)...");
                 web('https://phet.colorado.edu/sims/html/natural-selection/latest/natural-selection_en.html', '-browser');
                 return;
             end
@@ -253,17 +379,22 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 % Route to appropriate Engine Script
                 switch model
                     case 'Demo: Exponential Growth'
-                        run_PINN_Population(app, trainParams, rawValues{1});
+                        k_true = rawValues{1};
+                        k_init = rawValues{2};
+                        run_PINN_Population(app, trainParams, k_true, k_init);
                     case 'Mod 1: Explore (Forced ODE)'
                         run_PINN_ForcedODE(app, trainParams, rawValues);
                     case 'Mod 2: Explain (Lotka-Volterra)'
-                        run_PINN_LotkaVolterra(app, trainParams, cell2mat(rawValues));
+                        true_params = cell2mat(rawValues(1:4));
+                        init_params = cell2mat(rawValues(5:8));
+                        run_PINN_LotkaVolterra(app, trainParams, true_params, init_params);
                     case 'Mod 3: Elaborate (Holling''s Type II)'
-                        % Pass false for synthetic data
-                        run_PINN_HollingsTypeII(app, trainParams, cell2mat(rawValues), false); 
+                        true_params = cell2mat(rawValues(1:6));
+                        init_params = cell2mat(rawValues(7:12));
+                        run_PINN_HollingsTypeII(app, trainParams, true_params, init_params, false); 
                     case 'Mod 4: Evaluate (Hare/Lynx Data)'
-                        % Pass true to trigger CSV ingestion of real data
-                        run_PINN_HollingsTypeII(app, trainParams, cell2mat(rawValues), true);
+                        init_params = cell2mat(rawValues);
+                        run_PINN_HollingsTypeII(app, trainParams, init_params, init_params, true);
                 end
             catch ME
                 logMsg(app, "CRITICAL ERROR: " + string(ME.message));
@@ -277,7 +408,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
                 app.ModelDropDown.Enable = 'on';
                 app.EpochsEditField.Enable = 'on';
                 app.WarmupEditField.Enable = 'on';
-                updateParameterFields(app); % Restores correct noise/param toggles
+                updateParameterFields(app); 
                 logMsg(app, "Modeling Cycle Complete.");
             end
         end
@@ -299,7 +430,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             app.UIFigure.Color = [0.96 0.96 0.98]; 
             
             app.GridLayout = uigridlayout(app.UIFigure);
-            app.GridLayout.ColumnWidth = {'1x', '3x', '1.5x'};
+            app.GridLayout.ColumnWidth = {'1.35x', '3x', '1.5x'};
             app.GridLayout.RowHeight = {'1x'};
             app.GridLayout.ColumnSpacing = 15; 
             app.GridLayout.Padding = [15 15 15 15];
@@ -353,7 +484,7 @@ classdef PINNLab_Dashboard < matlab.apps.AppBase
             lblE = uilabel(settingsGrid, 'Text', 'Max Epochs:');
             lblE.Layout.Row = 2; lblE.Layout.Column = 1; lblE.FontName = stdFont;
             app.EpochsEditField = uieditfield(settingsGrid, 'numeric');
-            app.EpochsEditField.Value = 6000;
+            app.EpochsEditField.Value = 8000;
             app.EpochsEditField.Layout.Row = 2; app.EpochsEditField.Layout.Column = 2;
             
             lblW = uilabel(settingsGrid, 'Text', 'Warmup Epochs:');
