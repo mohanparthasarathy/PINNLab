@@ -167,9 +167,11 @@ Suggested prompt:
 
 Module 1 uses the forced ODE
 
+$$
 \[
 \frac{dy}{dt}-ky=Q(t).
 \]
+$$
 
 The code uses the log transformation
 
