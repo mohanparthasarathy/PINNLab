@@ -12,9 +12,8 @@ function run_PINN_LotkaVolterra(app, trainParams, true_params, init_params)
     [t_sol, U_sol] = ode45(@(t,u) lv_rhs(t,u,p_true), linspace(0,10,100), [1;1]);
 
     rng(42);
-    x_n = U_sol(:,1) + (noise_pct/100)*randn(size(U_sol(:,1)));
-    y_n = U_sol(:,2) + (noise_pct/100)*randn(size(U_sol(:,2)));
-
+    x_n = U_sol(:,1) + (noise_pct/100)*std(U_sol(:,1))*randn(size(U_sol(:,1)));
+    y_n = U_sol(:,2) + (noise_pct/100)*std(U_sol(:,2))*randn(size(U_sol(:,2)));
     t_min = 0; t_max = 10;
     dt_scale = (t_max-t_min)/2;
     t_norm = 2*(t_sol-t_min)/(t_max-t_min)-1;
