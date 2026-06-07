@@ -138,7 +138,7 @@ $$
 
 Briefly describe each parameter.
 
-1. \(\alpha\):
+1. $\alpha$:
 
 2. \(\beta\):
 
