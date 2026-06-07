@@ -48,7 +48,7 @@ function run_PINN_Population(app, trainParams, k_true, k_init)
         if epoch <= warmup_epochs
             lam=0; lr=1e-3; phase="Fit Data"; upd_net=true; upd_k=false; dw=1;
         elseif epoch <= phase2_end
-            lam=1; lr=0.01; phase="Find k"; upd_net=false; upd_k=true; dw=1;
+            lam=1; lr=0.01; phase="Find Params"; upd_net=false; upd_k=true; dw=1;
         else
             lam=1; lr=1e-4; phase="Fine Tune"; upd_net=true; upd_k=true; dw=20; 
         end
