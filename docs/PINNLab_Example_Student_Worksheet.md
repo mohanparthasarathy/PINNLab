@@ -140,11 +140,11 @@ Briefly describe each parameter.
 
 1. $\alpha$:
 
-2. \(\beta\):
+2. $\beta$:
 
-3. \(\gamma\):
+3. $\gamma$:
 
-4. \(\delta\):
+4. $\delta$:
 
 ---
 
@@ -250,17 +250,17 @@ $$
 
 Briefly describe each parameter.
 
-1. \(\alpha\):
+1. $\alpha$:
 
-2. \(K\):
+2. $K$:
 
-3. \(\beta\):
+3. $\beta$:
 
-4. \(c\):
+4. $c$:
 
-5. \(\gamma\):
+5. $\gamma$:
 
-6. \(\delta\):
+6. $\delta$:
 
 ---
 
