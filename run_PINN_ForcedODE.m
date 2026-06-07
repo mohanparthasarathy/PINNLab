@@ -112,11 +112,11 @@ function run_PINN_ForcedODE(app, trainParams, user_params)
         if app.StopFlag, break; end
         
         if epoch <= warmup_epochs
-            lam=0; lr=0.005; phase="Mapping Data"; upd_k=false;
+            lam=0; lr=0.005; phase="Fit Data"; upd_k=false;
         elseif epoch <= phase2_end
-            lam=0.1; lr=0.005; phase="Solving Inverse"; upd_k=true; 
+            lam=0.1; lr=0.005; phase="Find Params"; upd_k=true; 
         else
-            lam=1.0; lr=0.001; phase="Physics Fine Tune"; upd_k=true; 
+            lam=1.0; lr=0.001; phase="Fine Tune"; upd_k=true; 
         end
         
         [loss, gNet, gK, lD, lP] = dlfeval(@lossLogODE, dlnet, k_est, dlT, dlU, dlTf, dt_scale, u_mean, u_std, lam, Q_fun, t_min, t_max);
