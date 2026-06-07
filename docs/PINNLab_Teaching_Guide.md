@@ -26,7 +26,7 @@ After completing the PINNLab sequence, students should be able to:
 
 Before class, instructors should:
 
-1. Confirm that MATLAB and required toolboxes are available.
+1. Confirm that MATLAB R2019b or later and the Deep Learning Toolbox are available. PINNLab uses dlarray, dlnetwork, and dlgradient, which were introduced in R2019b. Earlier MATLAB releases are not supported.
 2. Clone or download the PINNLab repository.
 3. Run:
 
