@@ -194,19 +194,19 @@ function run_PINN_HollingsTypeII(app, trainParams, true_params, init_params, use
                 lam = 0;
                 lr_net = 1e-3;
                 lr_p = 0;
-                phase = "Data Mapping";
+                phase = "Fit Data";
                 dw = 1;
             elseif epoch <= phase2_end
                 lam = 2.0;
                 lr_net = 2e-5;
                 lr_p = 2e-3;
-                phase = "Physics Inverse";
+                phase = "Find Params";
                 dw = 1;
             else
                 lam = 1.0;
                 lr_net = 5e-5;
                 lr_p = 2e-4;
-                phase = "Fine Tuning";
+                phase = "Fine Tune";
                 dw = 1;
             end
         else
@@ -215,19 +215,19 @@ function run_PINN_HollingsTypeII(app, trainParams, true_params, init_params, use
                 lam = 0;
                 lr_net = 1e-3;
                 lr_p = 0;
-                phase = "Data Mapping";
+                phase = "Fit Data";
                 dw = 1;
             elseif epoch <= phase2_end
                 lam = 10.0;
                 lr_net = 1e-5;
                 lr_p = 5e-3;
-                phase = "Physics Inverse";
+                phase = "Find Params";
                 dw = 1;
             else
                 lam = 5.0;
                 lr_net = 5e-5;
                 lr_p = 5e-4;
-                phase = "Fine Tuning";
+                phase = "Fine Tune";
                 dw = 1;
             end
         end
