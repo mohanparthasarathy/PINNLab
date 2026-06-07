@@ -420,7 +420,7 @@ The most important code section to modify is the module-specific loss function. 
 
 PINNLab currently exposes common instructional controls in the GUI, including parameters, initial guesses, noise level, epochs, warm-up length, forcing functions, and data upload. More advanced changes, such as network depth, activation functions, collocation strategies, or entirely new ODE models, are made at the code level.
 
-Although PINNLab is implemented in MATLAB, the instructional structure can be transferred to Python-based scientific machine-learning libraries such as DeepXDE or NVIDIA Modulus. The essential ingredients are:
+Although PINNLab is implemented in MATLAB, the instructional structure can be transferred to Python-based PINN frameworks such as DeepXDE or NVIDIA Modulus. The essential ingredients are:
 
 - a differentiable neural-network state approximation,
 - automatic differentiation,
